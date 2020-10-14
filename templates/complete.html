@@ -8,8 +8,12 @@
 {% block content %}
 	<div>
 		<h1>Voila your file has been uploaded</h1>
-		<h2>Image Width {{width}} and Height {{height}}</h2>
+		
+		<h2>test = {{test}}</h2>
+
+		<h3>Image Width {{width}} and Height {{height}}</h3>
 		<img src= "{{url_for('static', filename = image_name)}}" id=img1id>
+		
 	</div>
 
 	<div>
@@ -18,7 +22,7 @@
 			<input type='range' id='zoomsldr' name='zoomsldr' onchange="myZoom()" min="1" max = "100">
 		</form>
 	</div>
-
+	
 	<script>
 		function myZoom(){
 			var z = document.getElementById("zoomsldr").value;

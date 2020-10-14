@@ -1,9 +1,390 @@
-{% extends "base.html" %}
+ 
+<!DOCTYPE html>
+<html>
+<head>
 
-{% block title%}
-	test
-{% endblock %}
 
-{% block content %}
-	<p>Length: {{ length }}, Base: {{ base }}, Width: {{ width }}, Height: {{ height }} </p>
-{% endblock %}
+	<p>Photo to your LEFT: Provide you the image and the coordinates of the Image</p>
+	<p>Photo to your RIGHT: Provide you the image and ability to draw on Image</p>
+
+
+	
+	<style>
+		
+		body{ margin:100px; background:#CCC; }
+
+		#my_canvas{ background:#FFF; border:1px solid red;
+		}
+		#canvas_image{ background:#FFF; border:#000 1px solid;
+		 }
+
+	</style>
+	
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.min.js"></script>
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/croppie/2.6.5/croppie.css" />
+	
+	<script>
+
+	
+		//Global Variable Assignment
+		var isDown = false;
+		var startX;
+		var startY;
+		var endX;
+		var endY;
+		var width;
+		var height;
+		var cList = [];
+		let num = 10;
+
+		//This gets the image coordinates of the first picture
+		function getImageCoords(event,img)
+		{
+		 	//get the image coordinates
+		 	var posX = event.offsetX ? (event.offsetX) : event.pageX - img.offsetLeft;
+		 	var posY = event.offsetY ? (event.offsetY) : event.pageY - img.offsetTop;
+
+		 	//psuhing the coordinates to the list
+		 	cList.push([posX,posY]);
+
+		 	if (cList.length > 4)
+		 	{
+		 		cList = [];
+
+		 	}
+
+		 	imgPnts = ("[" + "["+cList[0]+"]" + "," + "["+cList[1]+"]" + "," + "["+cList[2]+"]" +","+ "["+cList[3]+"]" +"]")
+
+		 	//set the value of imgPntsTransform to this
+		 	document.getElementById("imgPntsTransform").value = imgPnts;
+		 	console.log(imgPntsTransform.value)
+		
+
+		 	document.getElementById("pnt1Transform").value = "["+cList[0]+"]"
+		 	document.getElementById("pnt2Transform").value = "["+cList[1]+"]"
+		 	document.getElementById("pnt3Transform").value = "["+cList[2]+"]"
+		 	document.getElementById("pnt4Transform").value = "["+cList[3]+"]"
+		 	
+		 	
+		 	document.getElementById("countNum").value = "(int("+num+"*rawimagescale)"
+		 	
+		 	//testing variable
+		 	console.log(imgPnts)
+		 	console.log(cList)
+		 	
+		}
+
+		
+		window.onload = function() {
+			var ctx = document.getElementById("my_canvas").getContext("2d");
+			var img = document.getElementById("canvas_image")
+			ctx.drawImage(img,0,0, my_canvas.width, my_canvas.height)
+			var canvas = document.getElementById("my_canvas")
+			//the variable context holds the canvas 
+			var context = canvas.getContext("2d")
+			
+				context.strokeStyle = "blue";
+				context.lineWidth = 3;
+
+			$("#my_canvas").mousedown(function(e) {
+				handleMouseDown(e);
+			});
+			$("#my_canvas").mousemove(function(e) {
+				handleMouseMove(e);
+			});
+			$("#my_canvas").mouseup(function(e) {
+				handleMouseUp(e);
+			});
+			$("#my_canvas").mouseout(function(e) {
+				handleMouseOut(e);
+			});
+
+		}
+
+			function handleMouseDown(e) {
+				//instantiate variables
+				var $canvas = $("#my_canvas");
+				var canvasOffset = $canvas.offset();
+				var offsetX = canvasOffset.left;
+				var offsetY = canvasOffset.top;
+				var scrollX = $canvas.scrollLeft();
+				var scrollY = $canvas.scrollTop();
+
+				e.preventDefault();
+				e.stopPropagation();
+
+				  // save the starting x/y of the rectangle
+				startX = parseInt(e.clientX - offsetX);
+				startY = parseInt(e.clientY - offsetY);
+					
+				  
+				console.log(endX)
+				console.log(endY)
+				// set a flag indicating the drag has begun
+				isDown = true;
+			}
+
+			function handleMouseUp(e) {
+				//instantiate variables
+				var $canvas = $("#my_canvas");
+				var canvasOffset = $canvas.offset();
+				var offsetX = canvasOffset.left;
+				var offsetY = canvasOffset.top;
+				var scrollX = $canvas.scrollLeft();
+				var scrollY = $canvas.scrollTop();
+
+				e.preventDefault();
+				e.stopPropagation();
+
+				endX = parseInt(e.clientX - offsetX);
+				endY = parseInt(e.clientY - offsetY);
+				console.log(endX)
+				console.log(endY)
+
+				// the drag is over, clear the dragging flag
+				isDown = false;
+			}
+
+			function handleMouseOut(e) {
+				//instantiate variables
+				var $canvas = $("#my_canvas");
+				var canvasOffset = $canvas.offset();
+				var offsetX = canvasOffset.left;
+				var offsetY = canvasOffset.top;
+				var scrollX = $canvas.scrollLeft();
+				var scrollY = $canvas.scrollTop();
+
+				e.preventDefault();
+				e.stopPropagation();
+			  
+				if (isDown) {
+					endX = parseInt(e.clientX - offsetX);
+					endY = parseInt(e.clientY - offsetY);
+					console.log(endX)
+					console.log(endY)
+					}
+
+
+				// the drag is over, clear the dragging flag
+				isDown = false;
+				}
+
+			
+
+			function handleMouseMove(e) {
+				//instantiate variables
+				var $canvas = $("#my_canvas");
+				var canvasOffset = $canvas.offset();
+				var offsetX = canvasOffset.left;
+				var offsetY = canvasOffset.top;
+				var scrollX = $canvas.scrollLeft();
+				var scrollY = $canvas.scrollTop();
+				var ctx = document.getElementById("my_canvas").getContext("2d");
+				var img = document.getElementById("canvas_image")
+
+				e.preventDefault();
+				e.stopPropagation();
+				  
+				endX = parseInt(e.clientX - offsetX);
+				endY = parseInt(e.clientY - offsetY);
+
+				// if we're not dragging, just return
+				if (!isDown) {
+					return;
+				}
+
+				// get the current mouse position
+				mouseX = parseInt(e.clientX - offsetX);
+				mouseY = parseInt(e.clientY - offsetY);
+
+				// Put your mousemove stuff here
+
+				// clear the canvas
+				ctx.clearRect(0, 0, my_canvas.width, my_canvas.height);
+				ctx.drawImage(img,0,0,my_canvas.width, my_canvas.height)
+				// calculate the rectangle width/height based
+				// on starting vs current mouse position
+				var width = mouseX - startX;
+				var height = mouseY - startY;
+				
+				console.log("start(X)" + startX + "\tstart(Y)"+startY)
+				// draw a new rect from the start position 
+				// to the current mouse position
+				ctx.strokeRect(startX, startY, width, height);
+				
+				if (isDown)
+				{
+					// console.log("mouseX" + mouseX + "\tmouseY" + mouseY)
+					// console.log("width" + width + "\theight" + height)
+					testCoords = ("("+startX.toString()+ "," + (startY.toString())+ "," + (width.toString()) + "," + (height.toString())+")")
+					// console.log(testCoords)
+					document.getElementById("imgRotRoi_window").value = testCoords
+					
+					document.getElementById("startX_Coord").value = startX
+					document.getElementById("startY_Coord").value = startY
+					document.getElementById("width_Coord").value = width
+					document.getElementById("height_Coord").value = height
+				}
+				
+			}
+
+	</script>
+
+</head>
+
+<body>
+
+
+	<img class = "hidden"
+			id = "canvas_image"
+			src = "{{url_for('static', filename = imgtest)}}"
+			alt = "Canvas Picture" 
+			width = "650"
+			height = "480"
+			onclick = "getImageCoords(event,this);"/>
+	
+	<canvas id="my_canvas" width="650" height="480" ></canvas>
+
+	<h2>Cropped Image</h2>
+	<img id="crop_py"
+		src="{{url_for('static', filename = imgCrop)}}">
+
+	<h2>Third Image</h2>
+	<img id="request_image"
+		src="{{url_for('static', filename = picType_photo)}}"
+		width = "650"
+		height = "480">
+
+
+	<!--The HTML form-->
+	<div id="inputForm">
+			<div class = "container">	
+				<div class="row align-items-start">
+					<div class="col" >
+						<form class="form-inline" form name=inputForm action ="{{ url_for('shnGetCamImg') }}" method="POST"> 
+					 		<div class = "form-group row">
+					 			<p><label for="cameraIP">Camera IP Address:</label></p>
+					 			<div class="col " >
+					 				<p><input type="text" id="cameraIP" name="cameraIP" value="{{cIP}}" placeholder="{{cIP}}" ></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="imageArea">Enter Image Area:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type="number" id="imageArea" name="imageArea" value={{iArea}} placeholder="{{iArea}}" ></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="imgRotAng">Enter Image Rotation:</label></p>
+					 			<div class="col col-lg-2" >
+									<p><input type="number" id="imgRotAng" name="imgRotAng" value={{cAng}} placeholder="{{cAng}}" >	 			
+								</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="imgRotRoi_window">Enter ROI Window:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type="text" id="imgRotRoi_window" name="imgRotRoi_window" value={{cROI}} placeholder="{{cROI}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for='imgRotPerspect'>Enter Image Perspective:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type='bool' id='imgRotPerspect' name='imgRotPerspect'value={{cPer}} placeholder="{{cPer}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for='imgPntsTransform'>Enter Image Transform:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type='text' id='imgPntsTransform' name='imgPntsTransform' placeholder="{{iPnts}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for='countNum'>Enter Counting Numbers:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type='text' id='countNum' name='countNum'value={{cCnt}} placeholder="{{cCnt}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for='detectBoxLim'>Enter Detecting Box Limit:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type='text' id='detectBoxLim' name='detectBoxLim'value={{cBox}} placeholder="{{cBox}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for='detectFCNThresh'>Enter Detecting FCN Thresh:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type='float' id='detectFCNThresh' name='detectFCNThresh'value={{cFCN}} placeholder="{{cFCN}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for='detectFCNthreshold'>Enter Detecting FCN Threshold:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type='float' id='detectFCNthreshold' name='detectFCNthreshold'value={{ctHold}} placeholder="{{ctHold}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="startX_Coord">Enter Starting X:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type="number" id="startX_Coord" name="startX_Coord" placeholder="{{start_X}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="startY_Coord">Enter Starting Y:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type="number" id="startY_Coord" name="startY_Coord" placeholder="{{start_Y}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="width_Coord">Enter Width:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type="number" id="width_Coord" name="width_Coord" placeholder="{{width_XY}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="height_Coord">Enter Height:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type="number" id="height_Coord" name="height_Coord" placeholder="{{height_XY}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="pnt1Transform">Enter Point 1 For Transform:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type="text" id="pnt1Transform" name="pnt1Transform" placeholder="{{pnt1}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="pnt2Transform">Enter Point 2 For Transform:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type="text" id="pnt2Transform" name="pnt2Transform" placeholder="{{pnt2}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="pnt3Transform">Enter Point 3 For Transform:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type="text" id="pnt3Transform" name="pnt3Transform" placeholder="{{pnt3}}"></p>
+					 			</div>
+					 		</div>
+					 		<div class = "form-group row">
+					 			<p><label for="pnt4Transform">Enter Point 4 For Transform:</label></p>
+					 			<div class="col col-lg-2" >
+					 				<p><input type="text" id="pnt4Transform" name="pnt4Transform" placeholder="{{pnt4}}"></p>
+					 			</div>
+					 		</div>
+					 		<label for="picOptions">Choose a Picture From This List:</label>
+							<input list="options" id="picOptions" name="picOptions" placeholder="{{pic_type}}"/>
+							<datalist id="options">
+								<option value="Original Image">
+								<option value="Cropped Image">
+								<option value="Transformed Image">
+								<option value="Final Image">
+							 
+							</datalist>
+					
+								<input type='submit' value='Submit'> 
+					 			
+					</div>
+</body>  
+</html>
+
+

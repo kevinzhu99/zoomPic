@@ -1,0 +1,70 @@
+#----------------------------------------------
+#--- Author         : Hosein Nayyeri
+#----------------------------------------------
+from configs.common_config1 import *
+
+detection_method = 'ImageProc'                                      # ImageProc,FCN
+  
+if detection_method == 'FCN':
+import FCNDetectorV3
+
+# image
+D.data['cameraname'] = 192.168.34.89
+D.data['cameraip'] = 192.168.34.89
+rawimagescale = 0.9                                                 # factor to scale the raw input image 0 to 1
+livecamviewarea = 1
+x1p,y1p,x2p,y2p = 200,10,500,20                                     # rectangle area used to count pans and run detection 
+
+# image rotation parameters
+angle = 2
+
+roiwindow = 3
+roiwindow = 3
+lmts = [5,5,5,5]                                                # for visualization, if fullimage True, limits are used to expand the ROI area, crop it and replace it in the raw image and display
+perspectTrasf = 4
+pntsForPrspctveTrnsfrm = 5
+pntsForPrspctveTrnsfrm = 5
+
+#count
+cntinglnepos = 6
+cntinglineslope = 999                                               # counting line slope 
+deviation = int(35*rawimagescale)                                   # the constant that represents the object counting area around counting line(pixel)
+xcountlimit = 30                                             # min x distance from previous object in count area to be counted as new, to prevent double counting in contineues counting mode
+ycountlimit = 30                                            # min y distance from previous object in count area to be counted as new, to prevent double counting in contineues counting mode
+
+# linestop
+D.data['Prevframe'] = np.ones((roiwindow[3],roiwindow[2],3), np.uint8) # to detect if lines stopped
+linestopROI = [0,0,roiwindow[2],roiwindow[3]] # x,y,w,h
+linestopthresh = (linestopROI[2]*linestopROI[3])/2
+LneStpDtctor = shnutils1.shnLineStopDetector(linestoppedbuffersize,linestopthresh,linestopROI)
+
+# input video
+CamReader = shnutils1.shnVideoReader(livecamviewarea = livecamviewarea,cameraip = D.data['cameraip'])
+
+# video writer settings to save video
+vidlogheight,vidlogwidth = int(roiwindow[3]*0.5),int(roiwindow[2]*0.5)
+movielogger = shnutils1.shnVideoLogger(D,videorecduration = videorecduration, videosdirct = videosdirct, vidlogheight = vidlogheight, vidlogwidth= vidlogwidth,FPS = 10, writeinterval = 1.0)
+
+# Detection settings=======================================================================================================
+if detection_method == 'ImageProc':
+    kernelsze = 3
+    filtercolorlower = [(1, 2, 170)]
+    filtercolorupper = [(87, 255, 255)]
+    erosinIteration = 3
+    dilateIteration = 3
+    dilateIterationnoise = 3
+    naancounter = shnutils1.shnObjectCounterv2('continuous',cntinglnepos,cntinglineslope,deviation)
+    boxesarealimit = 7
+elif detection_method == 'FCN':
+    filtercolorlower = [(1, 2, 170)]
+    filtercolorupper = [(87, 255, 255)]
+    inpimgshape = [roiwindow[3],roiwindow[2]]                          # for FCN should be devisable by 4
+    windowsshapes = [[32,60],[48,40]]                                  # image size used to train the classifier model
+    fcndetector = FCNDetectorV3.shnFCNDetectorV3(modelsDir,FCNmodels,inpimgshape,windowsshapes)
+    time.sleep(1)
+    naancounter = shnutils1.shnObjectCounterv2('continuous',cntinglnepos,cntinglineslope,deviation)
+    boxesarealimit = 7
+    FCNconfthresh = 8
+    FCNnmsthreshold = 9
+    
+recordingflagSS = shnutils1.shnSingleShot()                         # single shot used to take ONE snapshot of the image once the pan reaches a specific postion
