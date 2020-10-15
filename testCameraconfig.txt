@@ -9,8 +9,8 @@ if detection_method == 'FCN':
 import FCNDetectorV3
 
 # image
-D.data['cameraname'] = 192.168.34.89
-D.data['cameraip'] = 192.168.34.89
+D.data['cameraname'] = 192.168.34.79
+D.data['cameraip'] = 192.168.34.79
 rawimagescale = 0.9                                                 # factor to scale the raw input image 0 to 1
 livecamviewarea = 1
 x1p,y1p,x2p,y2p = 200,10,500,20                                     # rectangle area used to count pans and run detection 
@@ -26,7 +26,7 @@ pntsForPrspctveTrnsfrm = 5
 pntsForPrspctveTrnsfrm = 5
 
 #count
-cntinglnepos = 6
+cntinglnepos = 
 cntinglineslope = 999                                               # counting line slope 
 deviation = int(35*rawimagescale)                                   # the constant that represents the object counting area around counting line(pixel)
 xcountlimit = 30                                             # min x distance from previous object in count area to be counted as new, to prevent double counting in contineues counting mode
@@ -54,7 +54,7 @@ if detection_method == 'ImageProc':
     dilateIteration = 3
     dilateIterationnoise = 3
     naancounter = shnutils1.shnObjectCounterv2('continuous',cntinglnepos,cntinglineslope,deviation)
-    boxesarealimit = 7
+    boxesarealimit = 6
 elif detection_method == 'FCN':
     filtercolorlower = [(1, 2, 170)]
     filtercolorupper = [(87, 255, 255)]
@@ -63,8 +63,8 @@ elif detection_method == 'FCN':
     fcndetector = FCNDetectorV3.shnFCNDetectorV3(modelsDir,FCNmodels,inpimgshape,windowsshapes)
     time.sleep(1)
     naancounter = shnutils1.shnObjectCounterv2('continuous',cntinglnepos,cntinglineslope,deviation)
-    boxesarealimit = 7
-    FCNconfthresh = 8
-    FCNnmsthreshold = 9
+    boxesarealimit = 6
+    FCNconfthresh = 7
+    FCNnmsthreshold = 4
     
 recordingflagSS = shnutils1.shnSingleShot()                         # single shot used to take ONE snapshot of the image once the pan reaches a specific postion
