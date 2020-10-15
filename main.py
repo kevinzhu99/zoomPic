@@ -2,8 +2,9 @@ from flask import Flask
 from flask import render_template, url_for, request, redirect
 import os
 from PIL import Image
-import cv2
+from opencv import cv2
 import time
+
 
 #functions:
 from functions import *
