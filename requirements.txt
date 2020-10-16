@@ -15,22 +15,3 @@ pytz==2020.1
 Werkzeug==1.0.1
 zope.interface==5.1.0
 
-
-app==0.0.1
-argh==0.26.2
-click==7.1.2
-DateTime==4.3
-Flask==1.1.2
-Flask-Images==3.0.2
-Flask-Resize==2.0.4
-Flask-SQLAlchemy==2.4.4
-itsdangerous==1.1.0
-Jinja2==2.11.2
-livereload==2.6.3
-MarkupSafe==1.1.1
-numpy==1.19.2
-opencv-python==4.4.0.42
-pytz==2020.1
-tornado==6.0.4
-Werkzeug==1.0.1
-zope.interface==5.1.0

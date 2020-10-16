@@ -6,7 +6,7 @@
 
 <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-
+<h2>Input Page</h2>
 </head>
 <!-- <style>
 * {
@@ -30,151 +30,236 @@
 }
 </style> -->
 
+<style>
+
+body{
+	background-color: grey;
+	margin-left: 50px;
+}
+
+h2{
+	font-size: 50px;
+}
+
+</style>
+
+
 
 <body>
 
 		
-<h2>Input Page</h2>
-
-
-	<div id="inputForm">
-		<div class = "container">	
-			<div class="row">
-				<div class="col" >
-					<form class="form-inline" form name=inputForm action ="{{ url_for('shnGetCamImg') }}" method="POST"> 
-				 		<div class = "form-group row">
-				 			<p><label for="cameraIP">Camera IP Address:</label></p>
-				 			<div class="col " >
-				 				<p><input type="text" id="cameraIP" name="cameraIP" placeholder="{{imageCam}} "></p>
-				 			</div>
-				 		</div>
-				 		<div class = "form-group row">
-				 			<p><label for="imageArea">Enter Image Area:</label></p>
-				 			<div class="col col-lg-2" >
-				 				<p><input type="number" id="imageArea" name="imageArea" placeholder="Default: {{imageArea}}" ></p>
-				 			</div>
-				 		</div>
-				 		<div class = "form-group row">
-				 			<p><label for="imgRotAng">Enter Image Rotation:</label></p>
-				 			<div class="col col-lg-2" >
-								<p><input type="number" id="imgRotAng" name="imgRotAng" placeholder="Default: {{imgRotAng}}" >	 			
-							</div>
-				 		</div>
-				 		<div class = "form-group row">
-				 			<p><label for="imgRotRoi_window">Enter ROI Window:</label></p>
-				 			<div class="col col-lg-2" >
-				 				<p><input type="number" id="imgRotRoi_window" name="imgRotRoi_window" placeholder="Default: {{imgRotRoi_window}}"></p>
-				 			</div>
-				 		</div>
-				 		<div class = "form-group row">
-				 			<p><label for='imgRotPerspect'>Enter Image Perspective:</label></p>
-				 			<div class="col col-lg-2" >
-				 				<p><input type='bool' id='imgRotPerspect' name='imgRotPerspect'placeholder="Default:{{imgRotPerspect}}"></p>
-				 			</div>
-				 		</div>
-				 		<div class = "form-group row">
-				 			<p><label for='imgPntsTransform'>Enter Image Transform:</label></p>
-				 			<div class="col col-lg-2" >
-				 				<p><input type='number' id='imgPntsTransform' name='imgPntsTransform'placeholder="Default: {{imgPntsTransform}}"></p>
-				 			</div>
-				 		</div>
-				 		<div class = "form-group row">
-				 			<p><label for='countNum'>Enter Counting Numbers:</label></p>
-				 			<div class="col col-lg-2" >
-				 				<p><input type='number' id='countNum' name='countNum'placeholder="Default: {{countNum}}"></p>
-				 			</div>
-				 		</div>
-				 		<div class = "form-group row">
-				 			<p><label for='detectBoxLim'>Enter Detecting Box Limit:</label></p>
-				 			<div class="col col-lg-2" >
-				 				<p><input type='number' id='detectBoxLim' name='detectBoxLim'placeholder="Default: {{detectBoxLim}}"></p>
-				 			</div>
-				 		</div>
-				 		<div class = "form-group row">
-				 			<p><label for='detectFCNThresh'>Enter Detecting FCN Thresh:</label></p>
-				 			<div class="col col-lg-2" >
-				 				<p><input type='float' id='detectFCNThresh' name='detectFCNThresh'placeholder="Default: {{detectFCNThresh}}"></p>
-				 			</div>
-				 		</div>
-				 		<div class = "form-group row">
-				 			<p><label for='detectFCNthreshold'>Enter Detecting FCN Threshold:</label></p>
-				 			<div class="col col-lg-2" >
-				 				<p><input type='float' id='detectFCNthreshold' name='detectFCNthreshold'placeholder="Default: {{detectFCNthreshold}}"></p>
-				 			</div>
-				 		</div>
-				 		<div class = "form-group row">
-					 		<p><label for="startX_Coord">Enter Starting X:</label></p>
-					 		<div class="col col-lg-2" >
-					 			<p><input type="number" id="startX_Coord" name="startX_Coord" value={{cROI}}></p>
-					 		</div>
-					 	</div>
-					 	<div class = "form-group row">
-					 		<p><label for="startY_Coord">Enter Starting Y:</label></p>
-					 		<div class="col col-lg-2" >
-					 			<p><input type="number" id="startY_Coord" name="startY_Coord" value={{cROI}}></p>
-					 		</div>
-					 	</div>
-					 	<div class = "form-group row">
-					 		<p><label for="width_Coord">Enter Width:</label></p>
-					 		<div class="col col-lg-2" >
-					 			<p><input type="number" id="width_Coord" name="width_Coord" value={{cROI}}></p>
-					 		</div>
-					 	</div>
-					 	<div class = "form-group row">
-					 		<p><label for="height_Coord">Enter Height:</label></p>
-					 		<div class="col col-lg-2" >
-					 			<p><input type="number" id="height_Coord" name="height_Coord" value={{cROI}}></p>
-					 		</div>
-					 	</div>	
-					 	<div class = "form-group row">
-							<p><label for="pnt1Transform">Enter Point 1 For Transform:</label></p>
-							<div class="col col-lg-2" >
-								<p><input type="text" id="pnt1Transform" name="pnt1Transform" placeholder="{{pnt1}}"></p>
-							</div>
-						</div>
-						<div class = "form-group row">
-							<p><label for="pnt2Transform">Enter Point 2 For Transform:</label></p>
-							<div class="col col-lg-2" >
-								<p><input type="text" id="pnt2Transform" name="pnt2Transform" placeholder="{{pnt2}}"></p>
-							</div>
-						</div>
-						<div class = "form-group row">
-							<p><label for="pnt3Transform">Enter Point 3 For Transform:</label></p>
-							<div class="col col-lg-2" >
-								<p><input type="text" id="pnt3Transform" name="pnt3Transform" placeholder="{{pnt3}}"></p>
-							</div>
-						</div>
-						<div class = "form-group row">
-							<p><label for="pnt4Transform">Enter Point 4 For Transform:</label></p>
-							<div class="col col-lg-2" >
-								<p><input type="text" id="pnt4Transform" name="pnt4Transform" placeholder="{{pnt4}}"></p>
-							</div>
-						</div>
-					
-						<label for="picOptions">Choose a Picture From This List:</label>
-						<input list="options" id="picOptions" name="picOptions" />
-						<datalist id="options">
-							<option value="Original Image">
-							<option value="Cropped Image">
-							<option value="Transformed Image">
-							<option value="Final Image">
-							 
-						</datalist>
-						
-
-
-				<div class="col" >
-				   	<h2>Image</h2>
-				   	<img src = "{{url_for('static', filename = 'FillOut.jpg')}}"  >
-				   
-				</div>
-
-				<input type='submit' value='Submit'> 
-
-	</div>
 
 	
 
- 
+	<!-- MY FORM FOR THIS PURPOSE -->
+	<div id="inputForm">
+		<form class = "form-inline" form name =inputForm action ="{{ url_for('shnGetCamImg') }}" method="POST"> 
+			
+			<div class = "row">
+				<div class = "col">	
+					
+					<div class = "form-group">
+						<p><label for="cameraIP">Camera IP Address:</label></p>
+						<div class= "col col-lg-2">
+							<p><input type="text" id="cameraIP" name="cameraIP" placeholder="{{imageCam}} "></p>
+						</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="imageArea">Enter Image Area:</label></p>
+						<div class= "col col-lg-2">
+							<p><input type="number" id="imageArea" name="imageArea" placeholder="Default: {{imageArea}}" ></p>
+						</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="imgRotAng">Enter Image Rotation:</label></p>
+						<div class =" col col-lg-2">
+							<p><input type="number" id="imgRotAng" name="imgRotAng" placeholder="Default: {{imgRotAng}}" >
+						</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="imgRotRoi_window">Enter ROI Window:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type="number" id="imgRotRoi_window" name="imgRotRoi_window" placeholder="Default: {{imgRotRoi_window}}"></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for='imgRotPerspect'>Enter Image Perspective:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type='bool' id='imgRotPerspect' name='imgRotPerspect'placeholder="Default:{{imgRotPerspect}}"></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for='imgPntsTransform'>Enter Image Transform:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type='number' id='imgPntsTransform' name='imgPntsTransform'placeholder="Default: {{imgPntsTransform}}"></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for='countNum'>Enter Counting Numbers:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type='number' id='countNum' name='countNum'placeholder="Default: {{countNum}}"></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for='detectBoxLim'>Enter Detecting Box Limit:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type='number' id='detectBoxLim' name='detectBoxLim'placeholder="Default: {{detectBoxLim}}"></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for='detectFCNThresh'>Enter Detecting FCN Thresh:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type='float' id='detectFCNThresh' name='detectFCNThresh'placeholder="Default: {{detectFCNThresh}}"></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for='detectFCNthreshold'>Enter Detecting FCN Threshold:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type='float' id='detectFCNthreshold' name='detectFCNthreshold'placeholder="Default: {{detectFCNthreshold}}"></p>
+					 	</div>
+					</div>
+
+
+				<!-- THIS IS THE FINAL LINE BEFORE ENDING THE COLUMN  -->
+				</div>
+				<!-- START A NEW COLUMN-->
+				<div class = "col">
+					
+					<div class = "form-group">
+						<p><label for="startX_Coord">Enter Starting X:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type="number" id="startX_Coord" name="startX_Coord" value={{cROI}}></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="startY_Coord">Enter Starting Y:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type="number" id="startY_Coord" name="startY_Coord" value={{cROI}}></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="width_Coord">Enter Width:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type="number" id="width_Coord" name="width_Coord" value={{cROI}}></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="height_Coord">Enter Height:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type="number" id="height_Coord" name="height_Coord" value={{cROI}}></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="pnt1Transform">Enter Point 1 For Transform:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type="text" id="pnt1Transform" name="pnt1Transform" placeholder="{{pnt1}}"></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="pnt2Transform">Enter Point 2 For Transform:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type="text" id="pnt2Transform" name="pnt2Transform" placeholder="{{pnt2}}"></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="pnt3Transform">Enter Point 3 For Transform:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type="text" id="pnt3Transform" name="pnt3Transform" placeholder="{{pnt3}}"></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="pnt4Transform">Enter Point 4 For Transform:</label></p>
+					 	<div class="col col-lg-2" >
+					 		<p><input type="text" id="pnt4Transform" name="pnt4Transform" placeholder="{{pnt4}}"></p>
+					 	</div>
+					</div>
+
+					<div class = "form-group">
+						<p><label for="picOptions">Choose a Picture From This List:</label></label></p>
+					 	<div class="col col-lg-2" >
+					 		
+					 		<p><input list="options" id="picOptions" name="picOptions" /></p>
+					 			
+					 			<datalist id="options">
+									<option value="Original Image">
+									<option value="Cropped Image">
+									<option value="Transformed Image">
+									<option value="Final Image">
+								</datalist>
+								
+					 	</div>
+					</div>
+
+					<div>
+						<input type='submit' value='Submit'> 
+					</div>
+					
+				</div>
+
+				<div class ="col">
+					<h3>Image</h3>
+					<img src = "{{url_for('static', filename = 'FillOut.jpg')}}"  >
+				</div>
+			</div>
+	</div>
+
+
+
+
+
+</form> 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 </body>
 </html>

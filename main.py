@@ -30,6 +30,7 @@ def index():
 @app.route('/shnGetCamImg', methods = ['GET', 'POST'])
 def shnGetCamImg():
 	
+
 	editKeyVal = {}
 	if request.method == 'POST':
 		cameraip = request.form['cameraIP']
